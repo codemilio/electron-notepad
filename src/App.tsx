@@ -1,9 +1,12 @@
-function App() {
+import './styles/global.css'
 
+function App() {
   return (
-    <>
-      Hello World
-    </>
+    <div className='bg-slate-700 font-bold text-4xl'>
+      <p className='text-violet-600'>
+        Hello World
+      </p>
+    </div>
   )
 }
 
