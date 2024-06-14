@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, Menu, ipcMain } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -32,8 +32,12 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
     },
-    backgroundColor: '#17141f'
+    backgroundColor: '#17141f',
+    autoHideMenuBar: true,
   })
+
+  // Hide menu
+  // Menu.setApplicationMenu(null) 
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
@@ -72,3 +76,7 @@ app.on('activate', () => {
 })
 
 app.whenReady().then(createWindow)
+
+ipcMain.handle('get-platform', () => {
+  return process.platform
+})
