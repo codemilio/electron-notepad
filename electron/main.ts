@@ -1,4 +1,5 @@
-import { app, BrowserWindow, Menu, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
+import { createFileRoute, createURLRoute } from 'electron-router-dom'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -18,7 +19,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 process.env.APP_ROOT = path.join(__dirname, '..')
 
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
-export const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
+export const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL'] || 'http://localhost:3000'
 export const MAIN_DIST = path.join(process.env.APP_ROOT, 'dist-electron')
 export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
 
@@ -41,19 +42,26 @@ function createWindow() {
     }
   })
 
-  // Hide menu
-  // Menu.setApplicationMenu(null) 
-
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', (new Date).toLocaleString())
   })
 
+  // Don't forget to check if the port is the same as your dev server
+  const windowId = 'main'
+  console.log(VITE_DEV_SERVER_URL)
+  const devServerURL = createURLRoute(VITE_DEV_SERVER_URL, windowId)
+
+  const fileRoute = createFileRoute(
+    path.join(RENDERER_DIST, 'index.html'),
+    windowId
+  )
+
   if (VITE_DEV_SERVER_URL) {
-    win.loadURL(VITE_DEV_SERVER_URL)
+    win.loadURL(devServerURL)
   } else {
     // win.loadFile('dist/index.html')
-    win.loadFile(path.join(RENDERER_DIST, 'index.html'))
+    win.loadFile(...fileRoute)
   }
 }
 
