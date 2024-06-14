@@ -34,6 +34,11 @@ function createWindow() {
     },
     backgroundColor: '#17141f',
     autoHideMenuBar: true,
+    titleBarStyle: 'hiddenInset',
+    trafficLightPosition: {
+      x: 20,
+      y: 20
+    }
   })
 
   // Hide menu
