@@ -5,14 +5,15 @@ import { CreatePage } from './CreatePage'
 import { Profile } from './Profile'
 import { Search } from './Search'
 import { useElectronContext } from '../../utils/contexts/electron.context'
+import { Content, Trigger } from '@radix-ui/react-collapsible'
 
 export function Sidebar() {
   const { platform } = useElectronContext()
   const isMacOS = platform === 'darwin'
 
   return (
-    <aside className="bg-base-800 flex-shrink-0 border-r border-base-600 h-screen relative group data-[state=open]:animate-slideIn data-[state=closed]:animate-slideOut overflow-hidden">
-      <button
+    <Content className="bg-base-800 flex-shrink-0 border-r border-base-600 h-screen relative group data-[state=open]:animate-slideIn data-[state=closed]:animate-slideOut overflow-hidden">
+      <Trigger
         className={clsx(
           'absolute h-5 w-5 right-4 text-base-200 hover:text-base-50 inline-flex items-center justify-center',
           {
@@ -22,7 +23,7 @@ export function Sidebar() {
         )}
       >
         <CaretDoubleLeft className="h-4 w-4" />
-      </button>
+      </Trigger>
 
       <div
         className={clsx('region-drag h-14', {
@@ -56,6 +57,6 @@ export function Sidebar() {
 
         <CreatePage />
       </div>
-    </aside>
+    </Content>
   )
 }

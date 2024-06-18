@@ -2,11 +2,15 @@ import clsx from 'clsx'
 import { Code, CaretDoubleRight, TrashSimple } from 'phosphor-react'
 import * as Breadcrumbs from './Breadcrumbs'
 import { useElectronContext } from '../../utils/contexts/electron.context'
+import { Trigger } from '@radix-ui/react-collapsible'
 
-export function Header() {
+type Props = {
+  isSidebarOpen: boolean
+}
+
+export function Header({isSidebarOpen}: Props) {
   const { platform } = useElectronContext()
   const isMacOS = platform === 'darwin'
-  const isSidebarOpen = true
   
   return (
     <div
@@ -20,14 +24,14 @@ export function Header() {
         },
       )}
     >
-      <button
+      <Trigger
         className={clsx('h-5 w-5 text-base-200 hover:text-base-50', {
           hidden: isSidebarOpen,
           block: !isSidebarOpen,
         })}
       >
         <CaretDoubleRight className="h-4 w-4" />
-      </button>
+      </Trigger>
 
       <>
         <Breadcrumbs.Root>
