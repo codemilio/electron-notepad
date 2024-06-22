@@ -88,8 +88,8 @@ app.on('activate', () => {
   }
 })
 
-app.whenReady().then(createWindow)
-
 ipcMain.handle('get-platform', () => {
   return process.platform
 })
+
+app.whenReady().then(createWindow)

@@ -1,17 +1,18 @@
-import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react'
 
 interface ElectronContextProps {
-  platform: NodeJS.Platform;
+  platform: NodeJS.Platform
 }
 
-const ElectronContext = createContext<ElectronContextProps | undefined>(undefined);
+const ElectronContext = createContext<ElectronContextProps | undefined>(undefined)
 
 export const ElectronProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [platform, setPlatform] = useState<NodeJS.Platform>('darwin')
 
   useEffect(() => {
     const fetchPlatform = async () => {
-      const os = await window.customApi.getPlatform()
+      const os = await window.customAPI.getPlatform()
+      console.log(os)
       setPlatform(os)
     }
     
@@ -26,9 +27,9 @@ export const ElectronProvider: React.FC<{ children: ReactNode }> = ({ children }
 }
 
 export const useElectronContext = (): ElectronContextProps => {
-  const context = useContext(ElectronContext);
+  const context = useContext(ElectronContext)
   if (!context) {
-    throw new Error('usePlatform must be used within a PlatformProvider');
+    throw new Error('usePlatform must be used within a PlatformProvider')
   }
-  return context;
-};
+  return context
+}
