@@ -6,10 +6,16 @@ import { Profile } from './Profile'
 import { Search } from './Search'
 import { useElectronContext } from '../../utils/contexts/electron.context'
 import { Content, Trigger } from '@radix-ui/react-collapsible'
+import { useQuery } from '@tanstack/react-query'
 
 export function Sidebar() {
   const { platform } = useElectronContext()
   const isMacOS = platform === 'darwin'
+
+  const { data, isLoading } = useQuery(['documents'], async () => {
+    const response = await window.api.fetchDocuments('teste')
+    return response
+  })
 
   return (
     <Content className="bg-base-800 flex-shrink-0 border-r border-base-600 h-screen relative group data-[state=open]:animate-slideIn data-[state=closed]:animate-slideOut overflow-hidden">

@@ -11,7 +11,7 @@ export const ElectronProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   useEffect(() => {
     const fetchPlatform = async () => {
-      const os = await window.customAPI.getPlatform()
+      const os = await window.api.getPlatform()
       console.log(os)
       setPlatform(os)
     }
