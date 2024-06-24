@@ -21,9 +21,7 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 })
 
 // --------- Custom API exposed to the Renderer process ---------
-export const api = {
-  getPlatform: (): Promise<NodeJS.Platform> => ipcRenderer.invoke('get-platform'),
-  fetchDocuments: () => ipcRenderer.invoke('get-platform')
-}
-
-contextBridge.exposeInMainWorld('customAPI', api)
+contextBridge.exposeInMainWorld('api', {
+  getPlatform: () => ipcRenderer.invoke('get-platform'),
+  fetchDocuments: (message: string) => ipcRenderer.send('fetch-documents', message)
+})

@@ -49,7 +49,6 @@ function createWindow() {
 
   // Don't forget to check if the port is the same as your dev server
   const windowId = 'main'
-  console.log(VITE_DEV_SERVER_URL)
   const devServerURL = createURLRoute(VITE_DEV_SERVER_URL, windowId)
 
   const fileRoute = createFileRoute(
@@ -86,6 +85,10 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
   }
+})
+
+ipcMain.on('fetch-documents', (event, props) => {
+  console.log('fetch: ', event, props)
 })
 
 ipcMain.handle('get-platform', () => {
