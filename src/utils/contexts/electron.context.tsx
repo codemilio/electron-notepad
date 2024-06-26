@@ -8,10 +8,11 @@ const ElectronContext = createContext<ElectronContextProps | undefined>(undefine
 
 export const ElectronProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [platform, setPlatform] = useState<NodeJS.Platform>('darwin')
-
+  const { getPlatform } = window.api
+  
   useEffect(() => {
     const fetchPlatform = async () => {
-      const os = await window.api.getPlatform()
+      const os = await getPlatform()
       console.log(os)
       setPlatform(os)
     }

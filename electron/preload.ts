@@ -23,7 +23,7 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 })
 
 // --------- Custom API exposed to the Renderer process ---------
-contextBridge.exposeInMainWorld('api', {
+export const api = {
   getPlatform: () => ipcRenderer.invoke('get-platform'),
   fetchDocuments: () => ipcRenderer.invoke(IPC.DOCUMENTS.FETCH_ALL),
   fetchDocument: (req: FetchDocumentRequest): Promise<FetchDocumentResponse> => {
@@ -38,4 +38,6 @@ contextBridge.exposeInMainWorld('api', {
   deleteDocument: (req: DeleteDocumentRequest): Promise<void> => {
     return ipcRenderer.invoke(IPC.DOCUMENTS.DELETE, req)
   },
-})
+}
+
+contextBridge.exposeInMainWorld('api', api)

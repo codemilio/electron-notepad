@@ -21,11 +21,4 @@ declare namespace NodeJS {
   }
 }
 
-// Used in Renderer process, expose in `preload.ts`
-interface Window {
-  ipcRenderer: import('electron').IpcRenderer
-  api: {
-    getPlatform: () => Promise<NodeJS.Platform>
-    fetchDocuments: (message: string) => Promise<void>
-  }
-}
+
