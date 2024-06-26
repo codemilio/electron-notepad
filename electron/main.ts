@@ -1,8 +1,11 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow } from 'electron'
 import { createFileRoute, createURLRoute } from 'electron-router-dom'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
+
+import '../src/utils/services/ipc.service'
+import '../src/utils/libs/store.lib'
 
 const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -85,14 +88,6 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
   }
-})
-
-ipcMain.on('fetch-documents', (event, props) => {
-  console.log('fetch: ', event, props)
-})
-
-ipcMain.handle('get-platform', () => {
-  return process.platform
 })
 
 app.whenReady().then(createWindow)

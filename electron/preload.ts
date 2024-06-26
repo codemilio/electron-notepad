@@ -1,4 +1,5 @@
 import { ipcRenderer, contextBridge } from 'electron'
+import { IPC } from '~/src/utils/shared/constants/ipc.constants'
 
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld('ipcRenderer', {
@@ -23,5 +24,5 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 // --------- Custom API exposed to the Renderer process ---------
 contextBridge.exposeInMainWorld('api', {
   getPlatform: () => ipcRenderer.invoke('get-platform'),
-  fetchDocuments: (message: string) => ipcRenderer.send('fetch-documents', message)
+  fetchDocuments: () => ipcRenderer.invoke(IPC.DOCUMENTS.FETCH_ALL)
 })
