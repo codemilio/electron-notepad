@@ -1,6 +1,6 @@
 import { ipcRenderer, contextBridge } from 'electron'
 import { IPC } from '~/src/utils/shared/constants/ipc.constants'
-import { CreateDocumentResponse, DeleteDocumentRequest, FetchDocumentRequest, FetchDocumentResponse, SaveDocumentRequest } from '~/src/utils/shared/types/ipc.types'
+import { FetchAllDocumentsResponse, CreateDocumentResponse, DeleteDocumentRequest, FetchDocumentRequest, FetchDocumentResponse, SaveDocumentRequest } from '~/src/utils/shared/types/ipc.types'
 
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld('ipcRenderer', {
@@ -25,7 +25,9 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 // --------- Custom API exposed to the Renderer process ---------
 export const api = {
   getPlatform: () => ipcRenderer.invoke('get-platform'),
-  fetchDocuments: () => ipcRenderer.invoke(IPC.DOCUMENTS.FETCH_ALL),
+  fetchDocuments: (): Promise<FetchAllDocumentsResponse> => {
+    return ipcRenderer.invoke(IPC.DOCUMENTS.FETCH_ALL)
+  },
   fetchDocument: (req: FetchDocumentRequest): Promise<FetchDocumentResponse> => {
     return ipcRenderer.invoke(IPC.DOCUMENTS.FETCH, req)
   },
