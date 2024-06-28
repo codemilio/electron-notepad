@@ -5,7 +5,11 @@ import Placeholder from "@tiptap/extension-placeholder"
 import Highlight from "@tiptap/extension-highlight"
 import Document from "@tiptap/extension-document"
 
-export function Editor() {
+type Props = {
+  content: string
+}
+
+export function Editor({ content }: Props) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -22,7 +26,7 @@ export function Editor() {
         emptyEditorClass: 'before:content-[attr(data-placeholder)] before:text-gray-500 before:h-0 before:float-left before:pointer-events-none'
       })
     ],
-    content: '<h1> hello world </h1> <p> My first document with tiptap. </p>',
+    content,
     autofocus: 'end',
     editorProps: {
       attributes: {
