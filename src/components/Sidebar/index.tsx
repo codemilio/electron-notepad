@@ -12,10 +12,13 @@ export function Sidebar() {
   const { platform } = useElectronContext()
   const isMacOS = platform === 'darwin'
 
-  // const { data, isLoading } = useQuery(['documents'], async () => {
-  //   const response = await window.api.fetchDocuments('teste')
-  //   return response
-  // })
+  const { data } = useQuery({
+    queryKey: ['documents'],
+    queryFn:  async () => {
+      const response = await window.api.fetchDocuments()
+      return response.data
+    }
+  })
 
   return (
     <Content className="bg-base-800 flex-shrink-0 border-r border-base-600 h-screen relative group data-[state=open]:animate-slideIn data-[state=closed]:animate-slideOut overflow-hidden">
@@ -53,10 +56,7 @@ export function Sidebar() {
           <Navigation.Section>
             <Navigation.SectionTitle>Workspace</Navigation.SectionTitle>
             <Navigation.SectionContent>
-              <Navigation.Link>Untitled</Navigation.Link>
-              <Navigation.Link>Discover</Navigation.Link>
-              <Navigation.Link>Ignite</Navigation.Link>
-              <Navigation.Link>Rocketseat</Navigation.Link>
+              { data && data.map(({ title }) => <Navigation.Link>{title}</Navigation.Link> )}
             </Navigation.SectionContent>
           </Navigation.Section>
         </Navigation.Root>
